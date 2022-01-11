@@ -8,6 +8,7 @@ import productRouter from './routers/productRouter.js';
 import clientRouter from './routers/clientRouter.js';
 import sellRouter from './routers/sellRouter.js';
 import expenseRouter from './routers/expenseRouter.js';
+import cors from 'cors'
 
 dotenv.config();
 
@@ -20,6 +21,8 @@ mongoose.connect(process.env.MONGODB_URL || "mongodb+srv://adminlc:12345@cluster
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
+
+app.use(cors())
 
 app.use((err, req, res, next) =>{
     res.status(500).send({message: err.message});
