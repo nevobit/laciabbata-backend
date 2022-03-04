@@ -41,6 +41,29 @@ productRouter.post('/create', expressAsyncHandler( async(req, res) => {
     // res.status(401).send({message: 'Categoria Creada'});
 }));
 
+productRouter.put("/:id", expressAsyncHandler( async (req, res) => {
+    console.log(req.body.product.name);
+    console.log(req.params.id);
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+
+    if (product) {
+        product.name = req.body.product.name;
+        product.category = req.body.product.category;
+        product.buyPrice = req.body.product.buyPrice;
+        product.code = req.body.product.code;
+        product.priceDetal = req.body.product.priceDetal;
+        product.priceMajor = req.body.product.priceMajor;
+        product.stock = req.body.product.stock;
+
+      const updatedProduct = await product.save();
+      res.send({ message: "Product Updated", product: updatedProduct });
+    } else {
+      res.status(404).send({ message: "Product Not Found" });
+    }
+  })
+);
+
 productRouter.delete('/:id', expressAsyncHandler( async(req, res) => {
     const product = await Product.findById(req.params.id);
     if(product){

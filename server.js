@@ -9,6 +9,7 @@ import clientRouter from './routers/clientRouter.js';
 import sellRouter from './routers/sellRouter.js';
 import expenseRouter from './routers/expenseRouter.js';
 import cors from 'cors'
+import morgan from 'morgan';
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ mongoose.connect(process.env.MONGODB_URL || "mongodb+srv://adminlc:12345@cluster
 });
 
 app.use(cors())
+app.use(morgan('dev'));
 
 app.use((err, req, res, next) =>{
     res.status(500).send({message: err.message});
