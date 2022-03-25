@@ -37,6 +37,8 @@ userRouter.post('/signin', expressAsyncHandler( async(req, res) => {
 
 userRouter.post('/register', expressAsyncHandler( async(req, res) => {
     const user = await User({name: req.body.name, username: req.body.username,password: req.body.password});
+
+    console.log("user")
     const createdUser = await user.save();
     res.send({
         _id: createdUser._id,
@@ -60,6 +62,25 @@ userRouter.delete('/:id', expressAsyncHandler( async(req, res) => {
     
     res.send(users);
 }));
+
+userRouter.put("/:id", expressAsyncHandler( async (req, res) => {
+    console.log('LLEGO')
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+
+
+    console.log(req.body)
+    if (user) {
+      user.name     = req.body.props.name;
+      user.username = req.body.props.username;
+      user.password = req.body.props.password;
+      const updatedUser = await user.save();
+      res.status(201).send({ message: "User Updated", user: updatedUser });
+    } else {
+      res.status(404).send({ message: "Category Not Found" });
+    }
+  })
+);
 
 
 export default userRouter;
