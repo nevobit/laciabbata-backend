@@ -29,13 +29,13 @@ categoryRouter.post(
 );
 
 categoryRouter.put("/:id", expressAsyncHandler( async (req, res) => {
-    console.log(req.body.category.name);
+    console.log(req.body.props.name);
     console.log(req.params.id);
     const categoryId = req.params.id;
     const category = await Category.findById(categoryId);
 
     if (category) {
-      category.name = req.body.category.name;
+      category.name = req.body.props.name;
       const updatedCategory = await category.save();
       res.send({ message: "Category Updated", category: updatedCategory });
     } else {

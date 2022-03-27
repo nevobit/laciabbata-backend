@@ -42,19 +42,17 @@ productRouter.post('/create', expressAsyncHandler( async(req, res) => {
 }));
 
 productRouter.put("/:id", expressAsyncHandler( async (req, res) => {
-    console.log(req.body.product.name);
-    console.log(req.params.id);
     const productId = req.params.id;
     const product = await Product.findById(productId);
 
     if (product) {
-        product.name = req.body.product.name;
-        product.category = req.body.product.category;
-        product.buyPrice = req.body.product.buyPrice;
-        product.code = req.body.product.code;
-        product.priceDetal = req.body.product.priceDetal;
-        product.priceMajor = req.body.product.priceMajor;
-        product.stock = req.body.product.stock;
+        product.name = req.body.props.name;
+        product.category = req.body.props.category;
+        product.buyPrice = req.body.props.buyPrice;
+        product.code = req.body.props.code;
+        product.priceDetal = req.body.props.priceDetal;
+        product.priceMajor = req.body.props.priceMajor;
+        product.stock = req.body.props.stock;
 
       const updatedProduct = await product.save();
       res.send({ message: "Product Updated", product: updatedProduct });
